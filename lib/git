@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [ ! -d ".git" ]; then
+    exit 0;
+fi
+
+BRANCHES=$(git branch | wc -l)
+if [[ $BRANCHES > 1 ]]; then
+    BRANCHSUFFIX="es"
+fi
+
+REMOTES=$(git remote | wc -l)
+if [[ $REMOTES > 1 ]]; then
+    REMOTESUFFIX="s"
+fi
+
+echo "=== Git repository ==="
+
+echo "$BRANCHES branch$BRANCHSUFFIX, $REMOTES remote$REMOTESUFFIX"
+git status

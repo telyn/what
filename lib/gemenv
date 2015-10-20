@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ ! -d "gemenv" ]; then
+    exit 0
+fi
+
+if [ ! -d "gemenv/gem_home" ]; then
+    exit 0
+fi
+
+echo "=== Gemenv ==="
+GEMS=$(gemenv/bin/exec gem list -l | wc -l)
+if [[ $GEMS > 1 ]]; then
+    GEMSUFFIX=s
+fi
+
+echo "$GEMS gem$GEMSUFFIX installed"
