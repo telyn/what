@@ -1,5 +1,4 @@
 #!/bin/bash
-
 if [ ! -d "gemenv" ]; then
     exit 0
 fi
@@ -8,10 +7,35 @@ if [ ! -d "gemenv/gem_home" ]; then
     exit 0
 fi
 
-echo "=== Gemenv ==="
 GEMS=$(gemenv/bin/exec gem list -l | wc -l)
 if [[ $GEMS > 1 ]]; then
     GEMSUFFIX=s
 fi
 
+declare -A orphans
+
+for gem in gemenv/gem_home/gems/*; do
+    orphans[$(basename ${gem%-*})]=1
+done
+
+for gemfile in gemenv/gem_home/cache/*; do
+    dependencies=$(tar xf "$gemfile" metadata.gz -O 2>/dev/null | gunzip -c 2>/dev/null | grep -C 1 Dependency | grep name: | awk -F ':' '{print $2}' | tr -d ' ')
+    if [ ! $? ]; then
+	continue
+    fi
+    for dep in $dependencies; do
+	unset orphans[$dep]
+    done
+done
+
+echo "=== Gemenv ==="
+
 echo "$GEMS gem$GEMSUFFIX installed"
+echo "${#orphans[@]} root gems"
+
+
+if [[ ${#orphans[@]}<=15 ]]; then
+    echo "${!orphans[@]}" | xargs --max-chars 80 echo
+fi
+
+
