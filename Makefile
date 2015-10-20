@@ -1,4 +1,4 @@
 install: 
 	cp bin/* /usr/local/bin
-	mkdir -p "/usr/lib/?"
-	cp lib/\?/* "/usr/lib/?"
+	mkdir -p "/usr/local/lib/?"
+	cp lib/\?/* "/usr/local/lib/?"

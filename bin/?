@@ -1,5 +1,5 @@
 #!/bin/bash
 
-LIBDIR="$(dirname $0)/../lib/?"
+LIBDIR="$(dirname "$0")/../lib/?"
 
 run-parts "$LIBDIR"
