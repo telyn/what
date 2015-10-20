@@ -1,4 +1,5 @@
 # aint giving out no company secrets
 lib/bytemark-*
+lib/?/bytemark-*
 
 .*.sw*
