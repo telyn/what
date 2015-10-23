@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ ! -d .hg ]; then
+    exit 0
+fi
+
+
+echo "=== Mercurial Repository ==="
+echo "Default remote: $(awk -F "=" '/default/ {print $2}' .hg/hgrc | tr -d ' ')"
+hg log | head -n 1
